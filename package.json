@@ -1,0 +1,11 @@
+{
+  "name": "digging-into-nodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:AjanShrestha/digging-into-nodejs.git",
+  "author": "Ajan Lal Shrestha <ajan.shresh@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "1.2.0"
+  }
+}

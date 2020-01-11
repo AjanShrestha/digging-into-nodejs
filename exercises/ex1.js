@@ -2,7 +2,13 @@
 
 'use strict';
 
-printHelp();
+var args = require('minimist')(process.argv.slice(2), {
+  boolean: ['help'],
+  string: ['file'],
+});
+console.log(args);
+
+// printHelp();
 
 // **********************
 function printHelp() {
