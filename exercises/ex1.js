@@ -1,6 +1,14 @@
-// My first Node.js program
+#!/usr/bin/env node
 
-// process.stdout.write('Hello world');
+'use strict';
 
-console.log('Hello world');
-console.error('Something is wrong');
+printHelp();
+
+// **********************
+function printHelp() {
+  console.log('ex1 usage:');
+  console.log(' ex1.js --help');
+  console.log('');
+  console.log('--help                 print this help');
+  console.log('');
+}
