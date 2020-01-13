@@ -14,23 +14,23 @@ console.log(args);
 if (args.help) {
   printHelp();
 } else if (args.file) {
-  processFile(path.resolve(args.file));
+  fs.readFile(path.resolve(args.file), function onContents(err, contents) {
+    if (err) {
+      error(err.toString());
+    } else {
+      processFile(contents);
+    }
+  });
 } else {
   error('Incorrect usage.', true);
 }
 
 // **********************
 
-function processFile(filepath) {
-  fs.readFile(filepath, function onContents(err, contents) {
-    if (err) {
-      error(err.toString());
-    } else {
-      contents = contents.toString().toUpperCase();
-      process.stdout.write(contents);
-      // console.log(contents);
-    }
-  });
+function processFile(contents) {
+  contents = contents.toString().toUpperCase();
+  process.stdout.write(contents);
+  // console.log(contents);
 }
 
 function error(msg, includeHelp = false) {
