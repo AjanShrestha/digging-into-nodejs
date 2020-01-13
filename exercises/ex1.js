@@ -22,9 +22,14 @@ if (args.help) {
 // **********************
 
 function processFile(filepath) {
-  var contents = fs.readFileSync(filepath, 'utf8');
-  process.stdout.write(contents);
-  // console.log(contents);
+  fs.readFile(filepath, function onContents(err, contents) {
+    if (err) {
+      error(err.toString());
+    } else {
+      process.stdout.write(contents);
+      // console.log(contents);
+    }
+  });
 }
 
 function error(msg, includeHelp = false) {
