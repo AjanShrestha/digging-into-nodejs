@@ -26,6 +26,7 @@ function processFile(filepath) {
     if (err) {
       error(err.toString());
     } else {
+      contents = contents.toString().toUpperCase();
       process.stdout.write(contents);
       // console.log(contents);
     }
