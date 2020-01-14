@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+caf@8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/caf/-/caf-8.0.1.tgz#6f1ae1619823680deb325723314aded083414237"
+  integrity sha512-RRur5Sm2RrodjpS3vLvwPSb+CxepirRBhRmsQMGfatmRew5UCoxd30nPqpx1oHOXjYNH/sHf9KC4bIGXo9ymUw==
+
 get-stdin@7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-7.0.0.tgz#8d5de98f15171a125c5e516643c7a6d0ea8a96f6"
