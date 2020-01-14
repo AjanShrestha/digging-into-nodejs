@@ -5,6 +5,7 @@
 var util = require('util');
 var path = require('path');
 var fs = require('fs');
+var Transform = require('stream').Transform;
 
 var getStdin = require('get-stdin');
 
@@ -30,6 +31,14 @@ if (args.help) {
 
 function processFile(inStream) {
   var outStream = inStream;
+  var upperStream = new Transform({
+    transform(chunk, enc, cb) {
+      this.push(chunk.toString().toUpperCase());
+      // setTimeout(cb, 500);
+      cb();
+    },
+  });
+  outStream = outStream.pipe(upperStream);
   var targetStream = process.stdout;
   outStream.pipe(targetStream);
 }
