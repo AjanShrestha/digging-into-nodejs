@@ -6,6 +6,7 @@
   "author": "Ajan Lal Shrestha <ajan.shresh@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "caf": "8.0.1",
     "get-stdin": "7.0.0",
     "minimist": "1.2.0"
   }
