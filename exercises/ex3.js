@@ -15,6 +15,12 @@ var args = require('minimist')(process.argv.slice(2), {
   string: ['file'],
 });
 
+function streamComplete(stream) {
+  return new Promise(function c(res) {
+    stream.on('end', res);
+  });
+}
+
 var BASE_PATH = path.resolve(process.env.BASE_PATH || __dirname);
 
 var OUTFILE = path.join(BASE_PATH, 'out.txt');
@@ -22,17 +28,21 @@ var OUTFILE = path.join(BASE_PATH, 'out.txt');
 if (args.help) {
   printHelp();
 } else if (args.in || args._.includes('-')) {
-  processFile(process.stdin);
+  processFile(process.stdin).catch(error);
 } else if (args.file) {
   let stream = fs.createReadStream(path.join(BASE_PATH, args.file));
-  processFile(stream);
+  processFile(stream)
+    .then(function() {
+      console.log('Complete!');
+    })
+    .catch(error);
 } else {
   error('Incorrect usage.', true);
 }
 
 // **********************
 
-function processFile(inStream) {
+async function processFile(inStream) {
   var outStream = inStream;
 
   if (args.uncompress) {
@@ -62,6 +72,7 @@ function processFile(inStream) {
     targetStream = fs.createWriteStream(OUTFILE);
   }
   outStream.pipe(targetStream);
+  await streamComplete(outStream);
 }
 
 function error(msg, includeHelp = false) {
