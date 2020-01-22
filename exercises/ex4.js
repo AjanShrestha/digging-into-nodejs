@@ -54,12 +54,15 @@ async function main() {
 
   // ***********
 
-  var otherID = insertOrLookupOther(other);
+  var otherID = await insertOrLookupOther(other);
   if (otherID) {
-    let result = insertSomething(otherID, something);
+    let result = await insertSomething(otherID, something);
     if (result) {
-      console.log('Success!');
-      return;
+      var records = await getAllRecords();
+      if (records && records.length > 0) {
+        console.table(records);
+        return;
+      }
     }
   }
 
@@ -101,7 +104,7 @@ async function insertSomething(otherID, something) {
   var result = await SQL3.run(
     `
     INSERT INTO
-      Something (otherId, data)
+      Something (otherID, data)
     VALUES
       (?,?)
   `,
@@ -112,6 +115,23 @@ async function insertSomething(otherID, something) {
     return true;
   }
   return false;
+}
+
+async function getAllRecords() {
+  var result = await SQL3.all(
+    `
+    SELECT
+      Something.data AS "something",
+      Other.data AS "other"
+      
+    FROM
+      Something JOIN Other
+      ON (Something.otherID = Other.id)
+    ORDER BY
+      Other.id DESC, Something.data
+    `
+  );
+  return result;
 }
 
 function error(err) {
