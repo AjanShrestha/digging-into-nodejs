@@ -54,9 +54,46 @@ async function main() {
 
   // ***********
 
-  // TODO: insert values and print all records
+  var otherID = insertOrLookupOther(other);
+  if (otherID) {
+    let result = insertSomething(otherId, something);
+    if (result) {
+      return;
+    }
+  }
 
   error('Oops!');
+}
+
+async function insertOrLookupOther(other) {
+  var result = await SQL3.get(
+    `
+    SELECT 
+      id
+    FROM
+      Other
+    WHERE
+      data = ?
+    `,
+    other
+  );
+
+  if (result && result.id) {
+    return result.id;
+  } else {
+    result = await SQL3.run(
+      `
+      INSERT INTO
+        Other (data)
+      VALUES
+        (?)
+    `,
+      other
+    );
+    if (result && result.lastId) {
+      return result.lastID;
+    }
+  }
 }
 
 function error(err) {
