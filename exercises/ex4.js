@@ -56,8 +56,9 @@ async function main() {
 
   var otherID = insertOrLookupOther(other);
   if (otherID) {
-    let result = insertSomething(otherId, something);
+    let result = insertSomething(otherID, something);
     if (result) {
+      console.log('Success!');
       return;
     }
   }
@@ -94,6 +95,23 @@ async function insertOrLookupOther(other) {
       return result.lastID;
     }
   }
+}
+
+async function insertSomething(otherID, something) {
+  var result = await SQL3.run(
+    `
+    INSERT INTO
+      Something (otherId, data)
+    VALUES
+      (?,?)
+  `,
+    otherID,
+    something
+  );
+  if (result && result.changes > 0) {
+    return true;
+  }
+  return false;
 }
 
 function error(err) {
