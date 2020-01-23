@@ -10,6 +10,7 @@
     "express": "4.17.1",
     "get-stdin": "7.0.0",
     "minimist": "1.2.0",
+    "node-fetch": "2.6.0",
     "node-static-alias": "1.1.2",
     "sqlite3": "4.1.1"
   }
