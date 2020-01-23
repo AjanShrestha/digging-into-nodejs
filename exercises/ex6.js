@@ -50,12 +50,28 @@ function main() {
 
 function defineRoutes() {
   app.get('/get-records', async function(req, res) {
+    await delay(1000);
     var records = await getAllRecords();
     res.writeHead(200, {
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
     });
     res.end(JSON.stringify(records));
+  });
+
+  app.use(function(req, res, next) {
+    if (/^\/(?:index\/?)?(?:[?#].*$)?$/.test(req.url)) {
+      req.url = '/index.html';
+    } else if (/^\/js\/.+$/.test(req.url)) {
+      next();
+      return;
+    } else if (/^\/(?:[\w\d]+)(?:[\/?#].*$)?$/.test(req.url)) {
+      let [, basename] = req.url.match(/^\/([\w\d]+)(?:[\/?#].*$)?$/);
+      req.url = `${basename}.html`;
+    } else {
+      req.url = '/404.html';
+    }
+    next();
   });
 
   app.use(
@@ -66,30 +82,6 @@ function defineRoutes() {
       },
     })
   );
-  // TODO: define routes
-  //
-  // Hints:
-  //
-  // {
-  // 	match: /^\/(?:index\/?)?(?:[?#].*$)?$/,
-  // 	serve: "index.html",
-  // 	force: true,
-  // },
-  // {
-  // 	match: /^\/js\/.+$/,
-  // 	serve: "<% absPath %>",
-  // 	force: true,
-  // },
-  // {
-  // 	match: /^\/(?:[\w\d]+)(?:[\/?#].*$)?$/,
-  // 	serve: function onMatch(params) {
-  // 		return `${params.basename}.html`;
-  // 	},
-  // },
-  // {
-  // 	match: /[^]/,
-  // 	serve: "404.html",
-  // },
 }
 
 // *************************
